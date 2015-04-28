@@ -13,8 +13,8 @@ module FacileSearch
     end
 
     def indexing(obj)
-      tokens = tokenizer.tokenize(obj.public_send(text_key))
-      id = obj.public_send(id_key)
+      tokens = tokenizer.tokenize(obj.public_send(text_field))
+      id = obj.public_send(id_field)
       lock = Redis::Lock.new(lock_key)
       begin
         lock.lock do

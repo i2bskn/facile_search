@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe FacileSearch::MetaData do
   let(:namespace) { "sample" }
-  let(:meta_data) { FacileSearch::MetaData.new(namespace: namespace, text_key: "text") }
+  let(:meta_data) { FacileSearch::MetaData.new(namespace: namespace, text_field: "text") }
 
   it "should define accessor" do
     FacileSearch::MetaData::BASE_KEYS.each do |key|
@@ -11,7 +11,7 @@ describe FacileSearch::MetaData do
   end
 
   it "default id_key is id" do
-    expect(meta_data.id_key).to eq("id")
+    expect(meta_data.id_field).to eq("id")
   end
 
   it "default tokenizer is bigram" do
