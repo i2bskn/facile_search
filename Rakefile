@@ -10,6 +10,6 @@ end
 
 desc "Console with library"
 task :console do
-  sh "irb -I lib -r bundler/setup -r facile_search"
+  sh "pry -I lib -r bundler/setup -r facile_search"
 end
 

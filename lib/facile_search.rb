@@ -1,5 +1,9 @@
-require "facile_search/version"
+require "forwardable"
 
-module FacileSearch
-  # Your code goes here...
-end
+require "redis/objects"
+require "oj"
+
+require "facile_search/version"
+require "facile_search/meta_data"
+require "facile_search/inverted_index"
+
