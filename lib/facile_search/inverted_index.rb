@@ -1,5 +1,3 @@
-require "facile_search/tokenizer/ngram"
-
 module FacileSearch
   class InvertedIndex
     extend Forwardable

@@ -1,12 +1,12 @@
 module FacileSearch
-  module Tokenizer
-    class NGram
-      def initialize(n)
-        @n = n
+  class Tokenizer
+    class NGram < self
+      def initialize(n = nil)
+        @n = n || 2 # default is bigram
       end
 
-      def tokenize(strings)
-        strings.chars.each_cons(@n).map(&:join)
+      def dividing(text)
+        text.chars.each_cons(@n).map(&:join)
       end
     end
   end
