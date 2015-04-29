@@ -5,6 +5,10 @@ module FacileSearch
         @n = n || 2 # default is bigram
       end
 
+      def tokenizable?(text)
+        text.size >= @n
+      end
+
       def dividing(text)
         text.chars.each_cons(@n).map(&:join)
       end

@@ -28,11 +28,22 @@ module FacileSearch
       end
     end
 
-    def search(queries)
-      queries.each_with_object([]) {|query, obj|
-        tokens = tokenizer.tokenize(query)
-        return [] if tokens.size.zero?
-        obj << redis.hmget(namespace, *tokens).map {|ids| deserialize(ids) }.inject(&:&)
+    def search(*queries)
+      queries.flatten.each_with_object([]) {|query, obj|
+        if tokenizer.tokenizable?(query)
+          tokens = tokenizer.tokenize(query)
+          return [] if tokens.size.zero?
+          obj << redis.hmget(namespace, *tokens).map {|value| deserialize(value) }.inject(&:&)
+        else
+          cursor = 0
+          ids = []
+          10000.times do # TODO: Adjust max number of loop
+            cursor, matches = redis.hscan(namespace, cursor, match: "*#{query}*")
+            ids << matches.map {|_, value| deserialize(value) }
+            break if cursor.to_i.zero?
+          end
+          obj << ids.uniq
+        end
       }.inject(&:&)
     end
 

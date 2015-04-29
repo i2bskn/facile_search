@@ -7,8 +7,12 @@ module FacileSearch
       dividing(preprocess(text))
     end
 
+    def tokenizable?(text)
+      raise NotImplementedError
+    end
+
     def dividing(text)
-      raise NotImpleremtedError
+      raise NotImplementedError
     end
 
     def preprocess(text)
