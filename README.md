@@ -1,5 +1,8 @@
 # FacileSearch
 
+[![Build Status](https://travis-ci.org/i2bskn/facile_search.svg?branch=master)](https://travis-ci.org/i2bskn/facile_search)
+[![Code Climate](https://codeclimate.com/github/i2bskn/facile_search/badges/gpa.svg)](https://codeclimate.com/github/i2bskn/facile_search)
+
 Simple search with inverted index.  
 (Index data is stored in the Redis.)
 
