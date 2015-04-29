@@ -24,12 +24,19 @@ Or install it yourself as:
 
 ## Usage
 
+Create inverted index object.
+
 ```ruby
-meta = FacileSearch::MetaData.new(namespace: "example_index", text_field: "text")
-index = FacileSearch::InvertedIndex.new(meta)
+meta_data = FacileSearch::MetaData.new(namespace: "example_index", text_field: "text", id_field: "id")
+index = FacileSearch::InvertedIndex.new(meta_data)
+```
+
+Indexing and search.
+
+```ruby
 sample = Struct.new(:id, :text).new(1, "some text")
 index.indexing(sample) # => "OK"
-index.search(["text"]) # => [1]
+index.search("text") # => [1]
 ```
 
 ## Contributing
