@@ -13,6 +13,7 @@ module FacileSearch
     def indexing(obj)
       tokens = tokenizer.tokenize(obj.public_send(text_field))
       id = obj.public_send(id_field)
+      return nil if tokens.size.zero? || !id
       lock = Redis::Lock.new(lock_key)
       begin
         lock.lock do
@@ -38,13 +39,21 @@ module FacileSearch
           cursor = 0
           ids = []
           10000.times do # TODO: Adjust max number of loop
-            cursor, matches = redis.hscan(namespace, cursor, match: "*#{query}*")
+            cursor, matches = redis.hscan(namespace, cursor, match: "*#{query}*", count: 10000)
             ids << matches.map {|_, value| deserialize(value) }
             break if cursor.to_i.zero?
           end
-          obj << ids.uniq
+          obj << ids.flatten.uniq
         end
       }.inject(&:&)
+    end
+
+    def indexes
+      redis.hgetall namespace
+    end
+
+    def redis
+      @redis ||= Redis.current
     end
 
     private
@@ -54,10 +63,6 @@ module FacileSearch
 
       def deserialize(string)
         string ? Oj.load(string) : []
-      end
-
-      def redis
-        @redis ||= Redis.current
       end
   end
 end
