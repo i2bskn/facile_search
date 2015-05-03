@@ -2,6 +2,9 @@ $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "facile_search"
 require "pry"
 
+require "coveralls"
+Coveralls.wear!
+
 Redis.current.flushdb
 
 Dir[File.expand_path("../support/**/*.rb", __FILE__)].each { |f| require f }
