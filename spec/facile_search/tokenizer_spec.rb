@@ -4,10 +4,24 @@ describe FacileSearch::Tokenizer do
   let(:tokenizer) { FacileSearch::Tokenizer.new }
   let(:hook_mock) { double("hook mock") }
 
+  describe "#tokenize" do
+    it {
+      expect {
+        tokenizer.tokenize("query")
+      }.to raise_error(NotImplementedError)
+    }
+
+    it {
+      expect(tokenizer).to receive(:preprocess).and_return("edited text")
+      expect(tokenizer).to receive(:dividing)
+      tokenizer.tokenize("query")
+    }
+  end
+
   describe "#tokenizable?" do
     it {
       expect {
-        tokenizer.tokenizable?
+        tokenizer.tokenizable?("query")
       }.to raise_error(NotImplementedError)
     }
   end
