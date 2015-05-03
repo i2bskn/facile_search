@@ -1,7 +1,7 @@
 module FacileSearch
   module Utils
     def divide_queries(queries)
-      queries.split(/[[:blank:]]/)
+      queries.split(/[[:blank:]]+/)
     end
   end
   extend Utils
