@@ -36,14 +36,8 @@ module FacileSearch
           return [] if tokens.size.zero?
           obj << redis.hmget(namespace, *tokens).map {|value| deserialize(value) }.inject(&:&)
         else
-          cursor = 0
-          ids = []
-          10000.times do # TODO: Adjust max number of loop
-            cursor, matches = redis.hscan(namespace, cursor, match: "*#{query}*", count: 10000)
-            ids << matches.map {|_, value| deserialize(value) }
-            break if cursor.to_i.zero?
-          end
-          obj << ids.flatten.uniq
+          obj << redis.hscan_each(namespace, match: "*#{query}*")
+            .map {|_, value| deserialize(value) }.flatten.uniq
         end
       }.inject(&:&)
     end
